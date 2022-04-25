@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST VERBOS IRREGULARES</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <style>
+        body {
+            margin: 40;
+            background-size: cover;
+            background-image: url("../VerbosIrregulares2020-master/imagenes/simsoon.jpg");
+            text-align: center;
+
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="game">
+        <button class="btn btn-block btn-secondary btn-warning" style="font-size: 1.5rem; font-style:oblique; line-height:0.5; color:black">TEST VERBOS IRREGULARES</button>
+        <br>
+        <div id="marcadorCastellano">
+            <button id="nivelSelec" class="btn btn-block btn-secondary btn-warning "style="font-size: 1.5rem; line-height:0.5; color:black"></button>
+        </div>
+            <br>
+        <div class="row">
+            <div class="col-9">
+                <button id="marcador" class="btn btn-block btn-danger">0</button>
+            </div>
+            <div class="col-3">
+                <button id="castellano" class="btn btn-block btn-light">Español</button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <div id="boton1"></div>
+            </div>
+            <div class="col">
+                <div id="boton2"></div>
+            </div>
+            <div class="col">
+                <div id="boton3"></div>
+            </div>
+            <br>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button id="botonresultado" class="btn btn-block btn-dark" onclick="comprueba()">CHECK RESULT</button>
+                <br>
+                <button id="botonniveles" class="btn btn-secondary" style="align-items: center;"
+                    onClick="MostrarNiveles()">Choose a level</a></button>
+            </div>
+        </div>
+    </div>
+        <br>
+        
+            <div id="niveles" class="row">
+                <div class="col-4">
+                    <button id="Nivel20" class="btn btn-block btn-success" onclick="PantallaNiveles(20)">Nivel
+                        20</button>
+                </div>
+
+                <div class="col-4">
+                    <button id="Nivel40" class="btn btn-block btn-success" onclick="PantallaNiveles(40)">Nivel
+                        40</button>
+                </div>
+
+                <div class="col-4">
+                    <button id="Nivel60" class="btn btn-block btn-success" onclick="PantallaNiveles(60)">Nivel
+                        60</button>
+                </div>
+            </div>
+            <br>
+            <div id="niveles1" class="row">
+                <div class="col-4">
+                    <button id="Nivel100" class="btn btn-block btn-success" onclick="PantallaNiveles(100)">Nivel
+                        100</button>
+
+                </div>
+
+
+                <div class="col-4">
+                    <button id="Nivel120" class="btn btn-block btn-success" onclick="PantallaNiveles(120)">Nivel
+                        120</button>
+                </div>
+
+                <div class="col-4">
+                    <button id="Nivel140" class="btn btn-block btn-success" onclick="PantallaNiveles(140)">Nivel
+                        140</button>
+                </div>
+            </div>
+
+        
+    </div>
+    <script src="https://kit.fontawesome.com/2858d23eb0.js" crossorigin="anonymous"></script>
+    <script src="js/listaVerbos.js"></script>
+
+    <script>
+        document.getElementById("game").style.display = "none";
+        
+         document.getElementById("marcadorCastellano").style.display = "none";
+        var tiempoAdivinar = 0;
+        var verboElegido = 0;
+        var jugando = 0;
+        var marcador = 0;
+        var numVerbosElegir = 0;
+
+        function comprueba() {
+            if (jugando == 0) {
+                jugando = 1;
+                //leemos el contenido de la caja que es lo que ha escrito el usuario
+                var verboLeido = document.getElementById('caja').value;
+                document.getElementById('botonresultado').classList.remove('btn-danger');
+                document.getElementById('botonresultado').classList.remove('btn-success');
+                document.getElementById('botonresultado').classList.remove('btn-dark');
+                //si el texto es igual al que hay que adivinar pinto en verde el boton resultado
+
+                if (verbos[verboElegido][tiempoAdivinar] == verboLeido) {
+                    marcador++;//si el verbo escrito es correcto se le suma +1 al marcador
+                    document.getElementById('botonresultado').classList.add('btn-success');
+                    document.getElementById('botonresultado').innerText = "CORRECT!";
+                } else {
+                    marcador--;//si el verbo escrito es correcto se le suma -1 al marcador
+                    document.getElementById('botonresultado').classList.add('btn-danger');
+                    document.getElementById('botonresultado').innerText = verbos[verboElegido][tiempoAdivinar];
+                }
+            } else {
+                document.getElementById('botonresultado').classList.add('btn-dark');
+                document.getElementById('botonresultado').innerText = "CHECK RESULT";
+                jugando = 0;
+                eligeVerbo();
+            }
+            document.getElementById('marcador').innerText = marcador;
+        }
+        function eligeVerbo() {
+            verboElegido = Math.floor(Math.random() * verbos.length);
+            tiempoAdivinar = Math.floor(Math.random() * 3);
+            document.getElementById("castellano").innerHTML = verbos[verboElegido][3];
+
+
+            //hacemos que el texto de un boton no aparezca (al azar)
+            //primer boton
+            if (tiempoAdivinar == 0) {
+                document.getElementById("boton1").innerHTML = '<input id="caja" class="form-control " >';
+            }
+            else {
+                document.getElementById("boton1").innerHTML =
+                    '<button class="btn btn-block btn-success">' + verbos[verboElegido][0] + '</button>';
+            }
+            //segundo boton
+            if (tiempoAdivinar == 1) {
+                document.getElementById("boton2").innerHTML = '<input id="caja" class="form-control " >';
+            }
+            else {
+                document.getElementById("boton2").innerHTML =
+                    '<button class="btn btn-block btn-success">' + verbos[verboElegido][1] + '</button>';
+
+            }
+            //tercer boton
+            if (tiempoAdivinar == 2) {
+                document.getElementById("boton3").innerHTML = '<input id="caja" class="form-control " >';
+            }
+            else {
+                document.getElementById("boton3").innerHTML =
+                    '<button class="btn btn-block btn-success">' + verbos[verboElegido][2] + '</button>';
+            }
+        }
+
+
+        eligeVerbo();
+
+        function MostrarNiveles() {
+            document.getElementById("niveles").style.display = "flex";
+            document.getElementById("niveles1").style.display = "flex";
+            document.getElementById("game").style.display = "none";
+        }
+
+        function PantallaNiveles(numVerbos) {
+            numVerbosElegir = numVerbos;
+            console.log(numVerbosElegir);
+            document.getElementById("niveles").style.display = "none";
+            document.getElementById("niveles1").style.display = "none";
+            document.getElementById("game").style.display = "inherit";
+            document.getElementById("marcadorCastellano").style.display = "block";
+            document.getElementById("nivelSelec").innerHTML = numVerbosElegir;
+        }
+
+
+    </script>
+</body>
+
+</html>
